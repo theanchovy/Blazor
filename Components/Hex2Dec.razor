@@ -1,0 +1,58 @@
+﻿@page "/hex2dec"
+@namespace Blazor.Components
+@rendermode InteractiveServer
+
+<h3>Hex → Dec (Шестнадцатеричное в десятичное)</h3>
+
+<div class="mb-3">
+    <label for="hexValue" class="form-label">Шестнадцатеричное число (0–9, A–F)</label>
+    <input type="text" id="hexValue" @bind="HexValue" class="form-control" placeholder="Например, FF" />
+</div>
+
+<button class="btn btn-primary" @onclick="Convert">Конвертировать</button>
+
+@if (ConversionError)
+{
+    <div class="alert alert-danger mt-3">Ошибка: неверный формат шестнадцатеричного числа.</div>
+}
+else if (!string.IsNullOrEmpty(DecimalResult))
+{
+    <div class="alert alert-info mt-3">
+        Результат: <strong>@HexValue<sub>16</sub> = @DecimalResult<sub>10</sub></strong>
+    </div>
+}
+
+@code {
+    private string HexValue { get; set; } = "FF";
+    private string DecimalResult { get; set; } = "";
+    private bool ConversionError { get; set; } = false;
+
+    private void Convert()
+    {
+        ConversionError = false;
+        DecimalResult = "";
+
+        if (string.IsNullOrWhiteSpace(HexValue)) return;
+
+        var normalized = HexValue.Trim().ToUpperInvariant();
+
+        foreach (var c in normalized)
+        {
+            if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F')))
+            {
+                ConversionError = true;
+                return;
+            }
+        }
+
+        try
+        {
+            int result = System.Convert.ToInt32(normalized, 16);
+            DecimalResult = result.ToString();
+        }
+        catch
+        {
+            ConversionError = true;
+        }
+    }
+}

@@ -1,0 +1,29 @@
+﻿@page "/dec2bin"
+@namespace Blazor.Components
+@rendermode InteractiveServer
+
+<h3>Dec → Bin (Десятичное в двоичное)</h3>
+
+<div class="mb-3">
+    <label for="decValue" class="form-label">Десятичное число</label>
+    <input type="number" id="decValue" @bind="DecimalValue" class="form-control" placeholder="Например, 10" />
+</div>
+
+<button class="btn btn-primary" @onclick="Convert">Конвертировать</button>
+
+@if (!string.IsNullOrEmpty(BinaryResult))
+{
+    <div class="alert alert-info mt-3">
+        Результат: <strong>@DecimalValue<sub>10</sub> = @BinaryResult<sub>2</sub></strong>
+    </div>
+}
+
+@code {
+    private int DecimalValue { get; set; } = 10;
+    private string BinaryResult { get; set; } = "";
+
+    private void Convert()
+    {
+        BinaryResult = System.Convert.ToString(DecimalValue, 2);
+    }
+}

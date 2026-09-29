@@ -1,0 +1,30 @@
+﻿@page "/power"
+@rendermode InteractiveServer
+
+<h3>Power (возведение в степень)</h3>
+
+<div class="factorial">
+    <div>
+        <label for="base">Основание</label>
+        <input type="number" id="base" @bind="baseValue" class="form-control" />
+
+        <label for="exponent">Показатель степени</label>
+        <input type="number" id="exponent" @bind="exponentValue" class="form-control" />
+
+        <button @onclick="Calculate" class="btn btn-primary">Вычислить</button>
+    </div>
+    <div id="power-result">
+        @baseValue<sup>@exponentValue</sup> = @result
+    </div>
+</div>
+
+@code {
+    private int baseValue = 2;
+    private int exponentValue = 3;
+    private double result = 8;
+
+    private void Calculate()
+    {
+        result = Math.Pow(baseValue, exponentValue);
+    }
+}

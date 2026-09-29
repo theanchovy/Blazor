@@ -1,0 +1,48 @@
+﻿@page "/fibonacci"
+@rendermode InteractiveServer
+
+<h3>Fibonacci (до предела)</h3>
+
+<div class="factorial">
+    <div>
+        <label for="limit">Предел (максимальное значение)</label>
+        <input type="number" id="limit" @bind="limit" class="form-control" />
+        <button @onclick="Generate" class="btn btn-primary">Сгенерировать</button>
+    </div>
+    <div id="fibonacci-result">
+        <p>Числа Фибоначчи ≤ @limit:</p>
+        <ul>
+            @foreach (var n in fibNumbers)
+            {
+                <li>@n</li>
+            }
+        </ul>
+        @if (fibNumbers.Count == 0)
+        {
+            <p>Нет чисел при заданном пределе.</p>
+        }
+    </div>
+</div>
+
+@code {
+    private int limit = 100;
+    private List<int> fibNumbers = new();
+
+    private void Generate()
+    {
+        fibNumbers.Clear();
+        int a = 0, b = 1;
+
+        if (limit >= 0) fibNumbers.Add(a);
+        if (limit >= 1 && a != b) fibNumbers.Add(b);
+
+        while (true)
+        {
+            int next = a + b;
+            if (next > limit) break;
+            fibNumbers.Add(next);
+            a = b;
+            b = next;
+        }
+    }
+}

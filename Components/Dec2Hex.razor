@@ -1,0 +1,29 @@
+﻿@page "/dec2hex"
+@namespace Blazor.Components
+@rendermode InteractiveServer
+
+<h3>Dec → Hex (Десятичное в шестнадцатеричное)</h3>
+
+<div class="mb-3">
+    <label for="decValue" class="form-label">Десятичное число</label>
+    <input type="number" id="decValue" @bind="DecimalValue" class="form-control" placeholder="Например, 255" />
+</div>
+
+<button class="btn btn-primary" @onclick="Convert">Конвертировать</button>
+
+@if (!string.IsNullOrEmpty(HexResult))
+{
+    <div class="alert alert-info mt-3">
+        Результат: <strong>@DecimalValue<sub>10</sub> = @HexResult<sub>16</sub></strong>
+    </div>
+}
+
+@code {
+    private int DecimalValue { get; set; } = 255;
+    private string HexResult { get; set; } = "";
+
+    private void Convert()
+    {
+        HexResult = System.Convert.ToString(DecimalValue, 16).ToUpperInvariant();
+    }
+}

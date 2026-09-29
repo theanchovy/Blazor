@@ -1,0 +1,16 @@
+﻿.factorial, .factorial > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+#power-result {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+input[type=number].form-control {
+    width: 128px;
+}

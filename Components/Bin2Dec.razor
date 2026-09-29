@@ -1,0 +1,57 @@
+﻿@page "/bin2dec"
+@namespace Blazor.Components
+@rendermode InteractiveServer
+
+<h3>Bin → Dec (Двоичное в десятичное)</h3>
+
+<div class="mb-3">
+    <label for="binValue" class="form-label">Двоичное число (только 0 и 1)</label>
+    <input type="text" id="binValue" @bind="BinaryValue" class="form-control" placeholder="Например, 1010" />
+</div>
+
+<button class="btn btn-primary" @onclick="Convert">Конвертировать</button>
+
+@if (ConversionError)
+{
+    <div class="alert alert-danger mt-3">Ошибка: введите только цифры 0 и 1.</div>
+}
+else if (!string.IsNullOrEmpty(DecimalResult))
+{
+    <div class="alert alert-info mt-3">
+        Результат: <strong>@BinaryValue<sub>2</sub> = @DecimalResult<sub>10</sub></strong>
+    </div>
+}
+
+@code {
+    private string BinaryValue { get; set; } = "1010";
+    private string DecimalResult { get; set; } = "";
+    private bool ConversionError { get; set; } = false;
+
+    private void Convert()
+    {
+        ConversionError = false;
+        DecimalResult = "";
+
+        if (string.IsNullOrWhiteSpace(BinaryValue)) return;
+
+        // Проверка: только 0 и 1
+        foreach (var c in BinaryValue)
+        {
+            if (c != '0' && c != '1')
+            {
+                ConversionError = true;
+                return;
+            }
+        }
+
+        try
+        {
+            int result = System.Convert.ToInt32(BinaryValue, 2);
+            DecimalResult = result.ToString();
+        }
+        catch
+        {
+            ConversionError = true;
+        }
+    }
+}
